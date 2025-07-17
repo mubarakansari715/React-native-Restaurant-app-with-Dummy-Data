@@ -256,3 +256,5 @@ For support and questions:
 ---
 
 **Built with ❤️ using React Native and Expo**
+<img width="1152" height="974" alt="resto" src="https://github.com/user-attachments/assets/9eb1ef82-8067-45a6-b38e-4e9ba5c25420" />
+
