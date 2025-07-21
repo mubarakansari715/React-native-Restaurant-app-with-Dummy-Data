@@ -7,9 +7,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   View,
 } from "react-native";
-import Toast from "react-native-toast-message";
 
 export default function MealsDetailsScreen({ route, navigation }) {
   const data = route.params;
@@ -17,14 +17,7 @@ export default function MealsDetailsScreen({ route, navigation }) {
 
   const [markAsFavorite, setMarkAsFavorite] = useState(false);
   const showToast = (message) => {
-    Toast.show({
-      type: "success", // 'success' | 'error' | 'info'
-      text1: "My Restaurant",
-      text2: message,
-      position: "top", // optional: 'top' | 'bottom'
-      visibilityTime: 1500, // optional: how long to show (ms)
-      autoHide: true, // optional: auto dismiss
-    });
+    ToastAndroid.show(message, ToastAndroid.SHORT);
   };
 
   const markAsFavoriteHandler = () => {
@@ -99,7 +92,6 @@ export default function MealsDetailsScreen({ route, navigation }) {
         </View>
 
         <View style={{ height: 80 }} />
-        <Toast />
       </View>
     </ScrollView>
   );
