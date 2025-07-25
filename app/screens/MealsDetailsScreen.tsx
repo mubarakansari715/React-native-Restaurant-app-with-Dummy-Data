@@ -1,6 +1,6 @@
 import { MEALS } from "@/data/dataService";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -10,8 +10,13 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { addToFavorite, removeToFavorite } from "../redux/action";
 
 export default function MealsDetailsScreen({ route, navigation }) {
+  const dispatch = useDispatch();
+  const favoriteItemList = useSelector((state) => state.favoriteReducer);
+
   const data = route.params;
   const selectedMeal = MEALS.find((meal) => meal.id === data.id);
 
@@ -20,22 +25,35 @@ export default function MealsDetailsScreen({ route, navigation }) {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   };
 
-  const markAsFavoriteHandler = () => {
+  const markAsFavoriteHandler = (item) => {
     if (markAsFavorite) {
       setMarkAsFavorite(false);
       showToast("Mark As Remove Favorite");
+      dispatch(removeToFavorite(item));
     } else {
       setMarkAsFavorite(true);
       showToast("Mark As Favorite");
+      dispatch(addToFavorite(item));
     }
   };
+
+  useEffect(() => {
+    const result = favoriteItemList.filter(
+      (item) => item.id === selectedMeal?.id
+    );
+    if (result.length) {
+      setMarkAsFavorite(true);
+    } else {
+      setMarkAsFavorite(false);
+    }
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: selectedMeal?.title,
       headerRight: () => {
         return (
-          <Pressable onPress={markAsFavoriteHandler}>
+          <Pressable onPress={() => markAsFavoriteHandler(selectedMeal)}>
             {markAsFavorite ? (
               <AntDesign name="star" size={24} color="white" />
             ) : (

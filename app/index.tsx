@@ -7,6 +7,8 @@ import CategoryScreen from "./screens/categoryscreen";
 import FavoriteScreen from "./screens/FavoriteScreen";
 import MealsDetailsScreen from "./screens/MealsDetailsScreen";
 import MealsOverview from "./screens/MealsOverview";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,26 +52,28 @@ export default function Index() {
   return (
     <>
       <StatusBar style="light" />
-      <View style={styles.viewContainer}>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#351401" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "#3f2f25" },
-          }}
-        >
-          <Stack.Screen
-            name="MealsCategories"
-            component={DrawerNavigator}
-            options={{ title: "All Food Catagories", headerShown: false }}
-          />
-          <Stack.Screen name="MealsOverview" component={MealsOverview} />
-          <Stack.Screen
-            name="MealsDetailsScreen"
-            component={MealsDetailsScreen}
-          />
-        </Stack.Navigator>
-      </View>
+      <Provider store={store}>
+        <View style={styles.viewContainer}>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#351401" },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: "#3f2f25" },
+            }}
+          >
+            <Stack.Screen
+              name="MealsCategories"
+              component={DrawerNavigator}
+              options={{ title: "All Food Catagories", headerShown: false }}
+            />
+            <Stack.Screen name="MealsOverview" component={MealsOverview} />
+            <Stack.Screen
+              name="MealsDetailsScreen"
+              component={MealsDetailsScreen}
+            />
+          </Stack.Navigator>
+        </View>
+      </Provider>
     </>
   );
 }
